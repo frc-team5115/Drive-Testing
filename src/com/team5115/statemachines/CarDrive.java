@@ -6,6 +6,7 @@ import com.team5115.robot.Robot;
 public class CarDrive extends StateMachineBase {
 	
 	double speed, turn, throttle;
+	double turnPower;
 	
 	public void update() {
 		switch (state) {
@@ -16,7 +17,12 @@ public class CarDrive extends StateMachineBase {
 			turn = InputManager.getX();
 			throttle = InputManager.getThrottle();
 			
-			Robot.drivetrain.drive(speed + (speed * turn), speed - (speed * turn), throttle);
+			// Keep in mind speed will always be in [-1, 1]
+			// Use abs of speed for turn rate to turn in same direction forward or backward
+			turnPower = Math.abs(speed) * turn;
+			
+			Robot.drivetrain.drive(speed + turnPower, speed - turnPower, throttle);
+			
 			break;
 		}
 	}
