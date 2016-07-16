@@ -16,12 +16,14 @@ public class DriveTrain {
 		frontright = new CANTalon(2);
 		backleft = new CANTalon(3);
 		backright = new CANTalon(4);
-
+		
+		// Set back motors as slaves to front motors
 		backleft.changeControlMode(CANTalon.TalonControlMode.Follower);
 		backright.changeControlMode(CANTalon.TalonControlMode.Follower);
 		backleft.set(frontleft.getDeviceID());
 		backright.set(frontright.getDeviceID());
 		
+		// Invert right side
 		frontright.setInverted(true);
 	}
 	

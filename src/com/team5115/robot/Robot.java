@@ -11,12 +11,18 @@ public class Robot extends IterativeRobot {
 	
 	public static DriveTrain drivetrain;
 	
+	public static StateMachine driver;
 	public static ArcadeDrive ad;
+	public static CarDrive cd;
+	public static HoffDrive hd;
 	
     public void robotInit() {
     	drivetrain = new DriveTrain();
     	
     	ad = new ArcadeDrive();
+		cd = new CarDrive();
+		hd = new HoffDrive();
+		driver = ad;
     }
     
     public void autonomousInit() {
@@ -28,17 +34,17 @@ public class Robot extends IterativeRobot {
     }
     
     public void teleopInit() {
-    	ad.start();
+    	driver.start();
     }
     
     public void teleopPeriodic() {
-        ad.update();
+        driver.update();
         
         Timer.delay(0.001);
     }
     
     public void disabledInit() {
-    	ad.end();
+    	driver.end();
     }
     
     public void disabledPeriodic() {

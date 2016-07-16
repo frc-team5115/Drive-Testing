@@ -9,21 +9,11 @@ public class InputManager {
 	static Joystick joy = new Joystick(0);
 	
 	public static double getX() {
-		double x = Math.pow(joy.getX(), 2) * Math.signum(joy.getX());
-		
-		if (x > Const.JOYSTICK_DEADBAND)
-			return x
-		
-		return 0;
+		return treatAxis(joy.getX());
 	}
 	
 	public static double getY() {
-		double y = Math.pow(joy.getY(), 2) * Math.signum(joy.getY());
-		
-		if (y > Const.JOYSTICK_DEADBAND)
-			return y
-		
-		return 0;
+		return treatAxis(joy.getY());
 	}
 	
 	public static double getThrottle() {
@@ -34,8 +24,19 @@ public class InputManager {
 		return joy.getRawButton(Const.BUTTON_QUICK_TURN);
 	}
 	
-	public static boolean startCommand() {
-		return false;
+	// Handles squaring and deadband to allow better driver control
+	// Squaring gives finer control at low values
+	// Deadband ensures a value of zero when joystick is centered
+	public static treatAxis(double val) {
+		if (val > 0)
+			val = Math.pow(val, 2);
+		else
+			val = -Math.pow(val, 2);
+		
+		if (Math.abs(val) < Constants.JOYSTICK_DEADBAND)
+			val = 0;
+		
+		return val;
 	}
 
 }
